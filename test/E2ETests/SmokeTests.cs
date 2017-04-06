@@ -79,16 +79,13 @@ namespace E2ETests
         [OSSkipCondition(OperatingSystems.MacOSX)]
         [InlineData(ServerType.WebListener, RuntimeFlavor.Clr, RuntimeArchitecture.x64, ApplicationType.Portable)]
         [InlineData(ServerType.WebListener, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Portable)]
-        [InlineData(ServerType.WebListener, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone,
-            Skip = "https://github.com/aspnet/MusicStore/issues/761")]
+        [InlineData(ServerType.WebListener, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone)]
         [InlineData(ServerType.Kestrel, RuntimeFlavor.Clr, RuntimeArchitecture.x64, ApplicationType.Portable)]
         [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Portable)]
-        [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone,
-            Skip = "https://github.com/aspnet/MusicStore/issues/761")]
+        [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone)]
         [InlineData(ServerType.IISExpress, RuntimeFlavor.Clr, RuntimeArchitecture.x64, ApplicationType.Portable)]
         [InlineData(ServerType.IISExpress, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Portable)]
-        [InlineData(ServerType.IISExpress, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone,
-            Skip = "https://github.com/aspnet/MusicStore/issues/761")]
+        [InlineData(ServerType.IISExpress, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone)]
         public async Task WindowsOS(
             ServerType serverType,
             RuntimeFlavor runtimeFlavor,
@@ -102,8 +99,7 @@ namespace E2ETests
         [ConditionalTheory, Trait("E2Etests", "Smoke")]
         [OSSkipCondition(OperatingSystems.Windows)]
         [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Portable)]
-        [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone,
-            Skip = "https://github.com/aspnet/MusicStore/issues/761")]
+        [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone)]
         public async Task NonWindowsOS(
             ServerType serverType,
             RuntimeFlavor runtimeFlavor,
@@ -198,7 +194,20 @@ namespace E2ETests
 
                     if (applicationType == ApplicationType.Standalone)
                     {
-                        deploymentParameters.AdditionalPublishParameters = " -r " + RuntimeEnvironment.GetRuntimeIdentifier();
+                        switch (RuntimeEnvironment.OperatingSystemPlatform)
+                        {
+                            case Platform.Windows:
+                                deploymentParameters.AdditionalPublishParameters = "-r win7-" + RuntimeEnvironment.RuntimeArchitecture;
+                                break;
+                            case Platform.Linux:
+                                deploymentParameters.AdditionalPublishParameters = "-r linux-" + RuntimeEnvironment.RuntimeArchitecture;
+                                break;
+                            case Platform.Darwin:
+                                deploymentParameters.AdditionalPublishParameters = "-r " + RuntimeEnvironment.GetRuntimeIdentifier();
+                                break;
+                            default:
+                                throw new InvalidOperationException("Unknown operating system");
+                        }
                     }
 
                     // Override the connection strings using environment based configuration

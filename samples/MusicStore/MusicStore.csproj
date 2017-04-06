@@ -7,10 +7,11 @@
     <TargetFrameworks>net46;netcoreapp2.0</TargetFrameworks>
     <DefineConstants>$(DefineConstants);DEMO</DefineConstants>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RuntimeIdentifiers>win7-x64;win7-x86;linux-x64;osx.10.12-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Update="ForTesting\**\*" CopyToPublishDirectory="Never" Condition=" '$(PublishForTesting)' != 'true' "/>
+    <Content Update="ForTesting\**\*" CopyToPublishDirectory="Never" Condition=" '$(PublishForTesting)' != 'true' " />
   </ItemGroup>
 
   <ItemGroup>
