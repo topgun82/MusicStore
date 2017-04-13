@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <Description>Music store application on ASP.NET Core</Description>
-    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp20</TargetFrameworks>
     <DefineConstants>$(DefineConstants);DEMO</DefineConstants>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RuntimeIdentifiers>win7-x86;win7-x64;linux-x64;osx.10.12-x64</RuntimeIdentifiers>
@@ -15,9 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
-    <PackageReference Include="NETStandard.Library" Version="2.0.0-*" />
+    <PackageReference Include="NETStandard.Library.NETFramework" Version="2.0.0-*" />
     <PackageReference Include="Microsoft.AspNetCore" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.AspNetCoreModule" Version="$(AspNetCoreModuleVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="$(AspNetCoreVersion)" />
